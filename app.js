@@ -27,11 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/', routes);
 //app.use('/users', users);
 
-
-
-
-app.get('/', functioin(req, res) {
-  res.render('editor')
+app.get('/', function(req, res) {
+  res.render('index')
 })
 
 
