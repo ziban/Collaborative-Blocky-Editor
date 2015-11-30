@@ -11,7 +11,7 @@ prog_exists() {
 
 
 #Check the type of operating system to perform the relevant install
-op_num;
+op_num = 0;
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
         op_num = 1;
@@ -33,7 +33,7 @@ elif [[ "$OSTYPE" == "freebsd"* ]]; then
         printf "freebsd\n"
     fi
         
-
+printf  "%d\n" $op_num
 #Check if there is an error with the installations too
 
 if prog_exists brew; then 
@@ -56,7 +56,8 @@ else
 fi
 
 
-#Clone the repository from github 
+#Make sure that the git
+git pull https://github.com/ziban/Collaborative-Blocky-Editor.git
 
 
 #Enter into the folder and install all the dependencies 
