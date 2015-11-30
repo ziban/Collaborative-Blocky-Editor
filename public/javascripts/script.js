@@ -5,42 +5,52 @@ window.onload = function() {
     console.log('outside');
     var tarea = document.getElementById('hack');
 
-    var logoutput = function () {
-        alert("Text Area Change");
-    }
-
+    // Text to Xml to Workspace Translation
     function toXml() {
-      //var output = document.getElementById('importExport');
       var xml = Blockly.Xml.workspaceToDom(workspace);
       tarea.value = Blockly.Xml.domToPrettyText(xml);
     }
 
+    function fromXml() {
+      var xml = Blockly.Xml.textToDom(tarea.value);
+      Blockly.Xml.domToWorkspace(workspace,xml);
+    }
+
+    //Monitors for change in the textarea 
+    var oldVal = tarea.value; 
+    var changeOccured = function() {
+      if (tarea.value != oldVal)
+      {
+        oldVal = tarea.value;
+        return true;
+      }
+        return false;
+    };
+
+    // Timer Function to detect text area updates from ShareJS.
+    setInterval(function(){
+      if (changeOccured())
+      {
+        workspace.clear();
+        fromXml();
+      }
+    }, 2000);
+
+
+   // Open Sharejs connection
    sharejs.open('home', 'text', function(error, doc) {
             doc.attach_textarea(tarea);
     });
 
+    // Blockly Change Listener
     workspace.addChangeListener(function() {
         console.log("change");
         toXml();
     });
 
-    tarea.addEventListener('input', logoutput);
 
    var connection = sharejs.open('home', 'text', function(error, doc) {
             doc.attach_textarea(tarea);
     });
 };
 
-
-
-// function toXml() {
-//   //var output = document.getElementById('importExport');
-//   var xml = Blockly.Xml.workspaceToDom(workspace);
-//   tarea.value = Blockly.Xml.domToPrettyText(xml);
-//   tarea.focus();
-//   tarea.select();
-// }
-
-// function fromXml() {
-//   var input = document.getElementById('importExport');
-//   var xml = Blockly.Xml.textToDom(input.value);
