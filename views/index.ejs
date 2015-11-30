@@ -11,10 +11,34 @@
 <body class="container-fluid">
 
     <section class="row">
-        <!--  <textarea class="col-md-6 full-height" id="toolbox"></textarea> -->
+        <!--<textarea class="col-md-6 full-height" id="toolbox"></textarea> -->
         <!--<div class="col-md-6 full-height" id="editor"></div> -->
+   
     </section>
 
+    <!-- Injecting Blockly -->
+    <script src="blockly/blockly_compressed.js"></script>
+    <script src="blockly/blocks_compressed.js"></script>
+    <script src="blockly/msg/js/en.js"></script>
+    <div id="blocklyDiv" style="height: 700px; width: 900px;"></div>
+    <xml id="toolbox" style="display: none">
+      <block type="controls_if"></block>
+      <block type="controls_repeat_ext"></block>
+      <block type="logic_compare"></block>
+      <block type="math_number"></block>
+      <block type="math_arithmetic"></block>
+      <block type="text"></block>
+      <block type="text_print"></block>
+      <block type="controls_whileUntil"></block>
+    </xml>
+
+    <script>
+      var workspace = Blockly.inject('blocklyDiv',
+          {toolbox: document.getElementById('toolbox')});
+    </script>
+
+ 	<script src="/channel/bcsocket.js"></script>
+    <script src="/share/share.uncompressed.js"></script>
     <script src="https://cdn.rawgit.com/showdownjs/showdown/1.0.2/dist/showdown.min.js"></script>
     <script src="/javascripts/script.js"></script>
 
