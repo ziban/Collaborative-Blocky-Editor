@@ -1,6 +1,6 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
+//var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -32,7 +32,6 @@ app.get('/', function(req, res) {
 })
 
 
-
 //Add sharejs 
 var sharejs = require('share');
 require('redis');
@@ -42,7 +41,7 @@ var options = {
   db: {type: 'redis'},
 };
 
-//Attach sharejs and express 
+//Attach sharejs and express server
 sharejs.server.attach(app, options);
 
 // catch 404 and forward to error handler

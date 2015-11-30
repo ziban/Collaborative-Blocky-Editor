@@ -9,9 +9,35 @@ window.onload = function() {
         alert("DOPPPPPPPPE");
     }
 
+    function toXml() {
+      //var output = document.getElementById('importExport');
+      var xml = Blockly.Xml.workspaceToDom(workspace);
+      tarea.value = Blockly.Xml.domToPrettyText(xml);
+    }
+
+
+    workspace.addChangeListener(function() {
+        console.log("change");
+        toXml();
+    });
+
     tarea.addEventListener('input', logoutput);
 
    // sharejs.open('home', 'text', function(error, doc) {
    //          doc.attach_textarea(blockly);
    //  });
 };
+
+
+
+// function toXml() {
+//   //var output = document.getElementById('importExport');
+//   var xml = Blockly.Xml.workspaceToDom(workspace);
+//   tarea.value = Blockly.Xml.domToPrettyText(xml);
+//   tarea.focus();
+//   tarea.select();
+// }
+
+// function fromXml() {
+//   var input = document.getElementById('importExport');
+//   var xml = Blockly.Xml.textToDom(input.value);
