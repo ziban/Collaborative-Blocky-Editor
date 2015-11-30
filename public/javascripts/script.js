@@ -6,7 +6,7 @@ window.onload = function() {
     var tarea = document.getElementById('hack');
 
     var logoutput = function () {
-        alert("DOPPPPPPPPE");
+        alert("Text Area Change");
     }
 
     function toXml() {
@@ -15,6 +15,9 @@ window.onload = function() {
       tarea.value = Blockly.Xml.domToPrettyText(xml);
     }
 
+   sharejs.open('home', 'text', function(error, doc) {
+            doc.attach_textarea(tarea);
+    });
 
     workspace.addChangeListener(function() {
         console.log("change");
@@ -23,9 +26,9 @@ window.onload = function() {
 
     tarea.addEventListener('input', logoutput);
 
-   // sharejs.open('home', 'text', function(error, doc) {
-   //          doc.attach_textarea(blockly);
-   //  });
+   var connection = sharejs.open('home', 'text', function(error, doc) {
+            doc.attach_textarea(tarea);
+    });
 };
 
 
