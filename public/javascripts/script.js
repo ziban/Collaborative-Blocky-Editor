@@ -4,10 +4,29 @@ window.onload = function() {
     var blockly = document.getElementById('blocklyDiv');
     var tarea = document.getElementById('hack');
 
+    var keyboardEvent = document.createEvent("KeyboardEvent");
+    var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent" : "initKeyEvent";
+
+
+    keyboardEvent[initMethod](
+                       "keydown", // event type : keydown, keyup, keypress
+                        true, // bubbles
+                        true, // cancelable
+                        window, // viewArg: should be window
+                        false, // ctrlKeyArg
+                        false, // altKeyArg
+                        false, // shiftKeyArg
+                        false, // metaKeyArg
+                        40, // keyCodeArg : unsigned long the virtual key code, else 0
+                        0 // charCodeArgs : unsigned long the Unicode character associated with the depressed key, else 0
+    );
+
     // Text to Xml to Workspace Translation
     function toXml() {
       var xml = Blockly.Xml.workspaceToDom(workspace);
       tarea.value = Blockly.Xml.domToPrettyText(xml);
+      tarea.dispatchEvent(keyboardEvent);
+      //tarea.dispatchEvent(document.createEvent);
     }
     function fromXml() {
       var xml = Blockly.Xml.textToDom(tarea.value);
@@ -29,10 +48,10 @@ window.onload = function() {
     setInterval(function(){
       if (changeOccured())
       {
-        //workspace.clear();
+        workspace.clear();
         fromXml();
       }
-    }, 2000);
+    }, 100);
 
     // Blockly Change Listener
     workspace.addChangeListener(function() {
