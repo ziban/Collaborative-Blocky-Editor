@@ -6,7 +6,7 @@ A realtime collaborative version of Google's Blockly.
 ###Installation 
 	Clone the repository  
 	CD into it.  
-	Make sure you have node and npm.  
+	Make sure you have node, npm and redis installed.  
 	run sh install.sh  
 
 	Go to http://localhost:3000  
