@@ -11,25 +11,25 @@ prog_exists() {
 
 
 #Check the type of operating system to perform the relevant install
-op_num = 0;
+op_num
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-        op_num = 1;
+        $op_num = 1;
         printf "Linux-gnu\n" 
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-        op_num = 2; 
+        $op_num = 2; 
         printf "Mac OS\n"
 elif [[ "$OSTYPE" == "cygwin" ]]; then
-        op_num = 3;
+        $op_num = 3;
         printf "Install not covered at the moment\n"
 elif [[ "$OSTYPE" == "msys" ]]; then
-        op_num = 3;
+        $op_num = 3;
         printf "Install not covered at the moment\n"
 elif [[ "$OSTYPE" == "win32" ]]; then
-        op_num = 3;
+        $op_num = 3;
         printf "Install not covered at the moment\n"
 elif [[ "$OSTYPE" == "freebsd"* ]]; then
-        op_num = 4;
+        $op_num = 4;
         printf "freebsd\n"
     fi
         
@@ -59,10 +59,11 @@ fi
 #Make sure that the git
 git pull https://github.com/ziban/Collaborative-Blocky-Editor.git
 
-
-#Enter into the folder and install all the dependencies 
+#Install all the dependecies 
+npm install
 
 #Execute the program
+npm start
 
 
 
