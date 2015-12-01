@@ -1,4 +1,4 @@
-# A compile script which when run will execute all the install 
+# A shell script which when run will execute all the install 
 # and setup functions. It also runs the program for the first time
 
 
