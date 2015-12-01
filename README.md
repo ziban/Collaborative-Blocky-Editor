@@ -1,7 +1,7 @@
 # Collaborative-Blocky-Editor
 
 ### What is it?
-Using Google's Blockly plugin to create a collaborative web enviroment for concurrent block-based coding.
+A realtime collaborative version of Google's Blockly. 
 
 ###Installation 
 	Clone the repository  
