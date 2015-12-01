@@ -1,13 +1,14 @@
 /* public/script.js */
 
+// Main Application logic
 window.onload = function() {
+    // Getting Elements
     var blockly = document.getElementById('blocklyDiv');
     var tarea = document.getElementById('hack');
 
+    // Used to fake a keyboard input to trigger ShareJS to update clients on text area (Compatible with Gecko and Chrome)
     var keyboardEvent = document.createEvent("KeyboardEvent");
     var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent" : "initKeyEvent";
-
-
     keyboardEvent[initMethod](
                        "keydown", // event type : keydown, keyup, keypress
                         true, // bubbles
@@ -25,8 +26,7 @@ window.onload = function() {
     function toXml() {
       var xml = Blockly.Xml.workspaceToDom(workspace);
       tarea.value = Blockly.Xml.domToPrettyText(xml);
-      tarea.dispatchEvent(keyboardEvent);
-      //tarea.dispatchEvent(document.createEvent);
+      tarea.dispatchEvent(keyboardEvent); //Simulate Keypress
     }
     function fromXml() {
       var xml = Blockly.Xml.textToDom(tarea.value);
