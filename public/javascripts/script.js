@@ -5,6 +5,9 @@ window.onload = function() {
     // Getting Elements
     var blockly = document.getElementById('blocklyDiv');
     var tarea = document.getElementById('tarea');
+    var chatmsg  = document.getElementById('messages');
+    var button = document.getElementById('button');
+    var chatbox = document.getElementById('input');
 
     // Used to fake a keyboard input to trigger ShareJS to update clients on text area (Compatible with Gecko and Chrome)
     var keyboardEvent = document.createEvent("KeyboardEvent");
@@ -28,13 +31,13 @@ window.onload = function() {
       tarea.value = Blockly.Xml.domToPrettyText(xml);
       tarea.dispatchEvent(keyboardEvent); //Simulate Keypress
     }
+
     function fromXml() {
       var xml = Blockly.Xml.textToDom(tarea.value);
       Blockly.Xml.domToWorkspace(workspace,xml);
     }
 
     //Monitors for change in the textarea 
-    var oldVal = tarea.value; 
     var changeOccured = function() {
       if (tarea.value != oldVal)
       {
@@ -44,7 +47,43 @@ window.onload = function() {
         return false;
     };
 
+
+    //----------------------------------------------------------------------------------//
+    var socket = io();
+
+    // Connection Notice
+
+
+    // Submit chatBox data to server-side socket.io
+    button.onclick = function(){
+      if(chatbox.value != ""){
+        socket.emit('chat message', chatbox.value);
+        chatbox.value = "";
+      }
+    };
+
+    // Check if enter is pressed in input field, if yes, simulate submission button press
+    // Enter is mainaully disabled due to form's default property of refreshing in submission
+    // triggerd by enter key.
+    chatbox.onkeypress = function(e){
+      if (!e) e = window.event;
+      var keyCode = e.keyCode || e.which;
+      if (keyCode == '13'){
+        button.onclick();
+        return false;
+      }
+    }
+    
+    // Receive chat box data when client-side socket.io 
+    socket.on('chat message', function(msg){
+      var node = document.createElement("li");                 // Create a <li> node
+      var textnode = document.createTextNode(msg);         // Create a text node
+      node.appendChild(textnode);
+      chatmsg.appendChild(node);  
+    });
+
     // Timer Function to detect text area updates from ShareJS.
+    var oldVal = tarea.value; 
     setInterval(function(){
       if (changeOccured())
       {

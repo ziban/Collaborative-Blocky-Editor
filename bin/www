@@ -20,8 +20,26 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-
 var server = http.createServer(app);
+
+// Socket.io
+var io = require('socket.io')(server);
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+  io.emit('chat message', "CHAT SERVER : A user has connected")
+
+  socket.on('disconnect', function(){
+    io.emit('chat message', "CHAT SERVER : A user has disconnected");
+    console.log('user disconnected');
+  });
+
+  socket.on('chat message', function(msg){
+    console.log('message: ' + msg);
+    io.emit('chat message', msg);
+  });
+});
+
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -37,17 +55,14 @@ server.on('listening', onListening);
  
 function normalizePort(val) {
   var port = parseInt(val, 10);
-
   if (isNaN(port)) {
     // named pipe
     return val;
   }
-
   if (port >= 0) {
     // port number
     return port;
   }
-
   return false;
 }
 
@@ -87,4 +102,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  console.log("Listening on " + addr.port);
 }
