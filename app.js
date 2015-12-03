@@ -27,10 +27,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/', routes);
 //app.use('/users', users);
 
+//Implementation for the main page
 app.get('/', function(req, res) {
   res.render('index')
 })
 
+//Implementation for different rooms
+app.get('/(:id)', function(req, res) {
+  res.render('index')
+})
 
 //Add sharejs 
 var sharejs = require('share');

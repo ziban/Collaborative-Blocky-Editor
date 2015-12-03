@@ -60,8 +60,13 @@ window.onload = function() {
     });
 
     // ShareJS Connection Open
-    var connection = sharejs.open('home', 'text', function(error, doc) {
+   if(document.location.pathname.length > 1){
+        // implement share js
+        var documentName = document.location.pathname.substring(1);
+        sharejs.open(documentName, 'text', function(error, doc) {
             doc.attach_textarea(tarea);
-    });
+        });        
+    }
+
 };
 
