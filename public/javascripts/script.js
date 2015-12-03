@@ -8,6 +8,7 @@ window.onload = function() {
     var chatmsg  = document.getElementById('messages');
     var button = document.getElementById('button');
     var chatbox = document.getElementById('input');
+    var chatDiv = document.getElementById('chatDiv')
 
     // Used to fake a keyboard input to trigger ShareJS to update clients on text area (Compatible with Gecko and Chrome)
     var keyboardEvent = document.createEvent("KeyboardEvent");
@@ -47,12 +48,17 @@ window.onload = function() {
         return false;
     };
 
+    // Chatbox Scrolling logic
+    setInterval(function(){
+          var isManuallyScrolling = (chatDiv.scrollHeight - chatDiv.clientHeight > chatDiv.scrollTop+65)
+          if(!isManuallyScrolling){
+            chatDiv.scrollTop = chatDiv.scrollHeight - chatDiv.clientHeight;   
+          }
+    },100)  
+
 
     //----------------------------------------------------------------------------------//
     var socket = io();
-
-    // Connection Notice
-
 
     // Submit chatBox data to server-side socket.io
     button.onclick = function(){
@@ -73,7 +79,7 @@ window.onload = function() {
         return false;
       }
     }
-    
+
     // Receive chat box data when client-side socket.io 
     socket.on('chat message', function(msg){
       var node = document.createElement("li");                 // Create a <li> node
@@ -90,7 +96,7 @@ window.onload = function() {
         workspace.clear();
         fromXml();
       }
-    }, 100);
+    }, 200);
 
     // Blockly Change Listener
     workspace.addChangeListener(function() {

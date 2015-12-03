@@ -2,74 +2,87 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Blockly Collaborative Editor</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/stylesheets/style.css" rel="stylesheet">
-    <style>
-    </style>
+  <head>
+      <title>Blockly Collaborative Editor</title>
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+      <link href="/stylesheets/style.css" rel="stylesheet">
+      <style>
+          html, body { 
+              margin: 0; 
+              padding: 0; 
+              width: 99%; 
+              height: 100%;
+          }
 
-</head>
+          li
+          {
+            width: 100%
+          }
+      </style>
 
-<body class="container-fluid">
-    <section class="row">
-       <textarea style ="visibility:hidden" type = "hidden" id="tarea"></textarea>
-    </section>
+  </head>
 
-    <!-- Injecting Blockly -->
+  <body>
+        <p style="text-align:center;"><span style="font-family:Helvetica;font-size:27px;font-style:normal;font-weight:bold;text-decoration:underline;text-transform:none;letter-spacing:10px;color:000000;">Collaborative Blockly Editor</span></p>
 
-      <script src="blockly/blockly_compressed.js"></script>
-      <script src="blockly/blocks_compressed.js"></script>
-      <script src="blockly/msg/js/en.js"></script>
-      <div id="blocklyDiv" style="height: 675px; width: 69%; float:left; margin-right: 1%;"></div>
+      <section class="row" style="height:0px;">
+         <textarea style ="visibility:hidden" type = "hidden" id="tarea"></textarea>
+      </section>
 
-      <xml id="toolbox" style="display: none">
-        <block type="controls_if"></block>
-        <block type="controls_repeat_ext"></block>
-        <block type="logic_compare"></block>
-        <block type="math_number"></block>
-        <block type="math_arithmetic"></block>
-        <block type="text"></block>
-        <block type="text_print"></block>
-        <block type="controls_whileUntil"></block>
-      </xml>
+      <!-- Injecting Blockly -->
 
-      <script>
-        var workspace = Blockly.inject('blocklyDiv',
-            {toolbox: document.getElementById('toolbox')});
-      </script>
+        <script src="blockly/blockly_compressed.js"></script>
+        <script src="blockly/blocks_compressed.js"></script>
+        <script src="blockly/msg/js/en.js"></script>
+        <div id="blocklyDiv" style="height:93%; width: 69%; float:left; margin-right: 1%;"></div>
 
-      <!-- Socket.io Chat Box -->
-        <div id="chatDiv" style="height: 90%; width: 30%; float:left">
-          <head>
-            <style>
-              * { margin: 0; padding: 0; box-sizing: border-box; }
-              body { font: 13px Helvetica, Arial; }
-              form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 29%; }
-              form input { border: 0; padding: 10px; width: 70%; margin-right: 1%; }
-              form button { width: 28%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-              #messages { list-style-type: none; margin: 0; padding: 0; }
-              #messages li { padding: 5px 10px; }
-              #messages li:nth-child(odd) { background: #eee; }
-            </style>
-          </head>
-          <body>
-            <ul id="messages"></ul>
-            <form onSubmit="return false;" action="">
-              <input id="input" autocomplete="off" ></input><button id="button" type="button">Send</button>
-            </form>
-          </body>
-        </div>
+        <xml id="toolbox" style="display: none">
+          <block type="controls_if"></block>
+          <block type="controls_repeat_ext"></block>
+          <block type="logic_compare"></block>
+          <block type="math_number"></block>
+          <block type="math_arithmetic"></block>
+          <block type="text"></block>
+          <block type="text_print"></block>
+          <block type="controls_whileUntil"></block>
+        </xml>
 
-      <!-- Linking Frontend ShareJs and Socketio-->
-        <script src="/socket.io/socket.io.js"></script>
-     	  <script src="/channel/bcsocket.js"></script>
-        <script src="/share/share.uncompressed.js"></script>
-        <script src="/share/textarea.js"></script>
+        <script>
+          var workspace = Blockly.inject('blocklyDiv',
+              {toolbox: document.getElementById('toolbox')});
+        </script>
+
+        <!-- Socket.io Chat Box -->
+          <div id="chatDiv" style="height: 680px; overflow:auto; width: 30%; float:left">
+            <head>
+              <style>
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                body { font: 15px Helvetica, Arial; font-weight: bold; }
+                form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 29%; }
+                form input { border: 0; padding: 10px; width: 70%; margin-right: 1%; }
+                form button { width: 28%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+                #messages { list-style-type: none; margin: 0; padding: 0; }
+                #messages li { padding: 5px 10px; }
+                #messages li:nth-child(odd) { background: #eee; }
+              </style>
+            </head>
+            <body>
+              <ul id="messages"></ul>
+              <form onSubmit="return false;" action="">
+                <input id="input" autocomplete="off" ></input><button id="button" type="button">Send</button>
+              </form>
+            </body>
+          </div>
+
+        <!-- Linking Frontend ShareJs and Socketio-->
+          <script src="/socket.io/socket.io.js"></script>
+       	  <script src="/channel/bcsocket.js"></script>
+          <script src="/share/share.uncompressed.js"></script>
+          <script src="/share/textarea.js"></script>
 
 
-    <script src="https://cdn.rawgit.com/showdownjs/showdown/1.0.2/dist/showdown.min.js"></script>
-    <script src="/javascripts/script.js"></script>
+      <script src="https://cdn.rawgit.com/showdownjs/showdown/1.0.2/dist/showdown.min.js"></script>
+      <script src="/javascripts/script.js"></script>
 
-</body>
+  </body>
 </html>
