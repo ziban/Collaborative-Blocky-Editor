@@ -4,7 +4,7 @@
 window.onload = function() {
     // Getting Elements
     var blockly = document.getElementById('blocklyDiv');
-    var tarea = document.getElementById('hack');
+    var tarea = document.getElementById('tarea');
 
     // Used to fake a keyboard input to trigger ShareJS to update clients on text area (Compatible with Gecko and Chrome)
     var keyboardEvent = document.createEvent("KeyboardEvent");
@@ -60,6 +60,7 @@ window.onload = function() {
     });
 
     // ShareJS Connection Open
+
    if(document.location.pathname.length > 1){
         // implement share js
         var documentName = document.location.pathname.substring(1);
