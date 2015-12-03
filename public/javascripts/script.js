@@ -56,14 +56,15 @@ window.onload = function() {
           }
     },100)  
 
-
+    var documentName = document.location.pathname;
     //----------------------------------------------------------------------------------//
     var socket = io();
+    socket.emit('join room', documentName)
 
     // Submit chatBox data to server-side socket.io
     button.onclick = function(){
       if(chatbox.value != ""){
-        socket.emit('chat message', chatbox.value);
+        socket.emit('chat message', documentName, chatbox.value);
         chatbox.value = "";
       }
     };
@@ -108,8 +109,7 @@ window.onload = function() {
 
    if(document.location.pathname.length > 1){
         // implement share js
-        var documentName = document.location.pathname.substring(1);
-        sharejs.open(documentName, 'text', function(error, doc) {
+        sharejs.open(documentName.substring(1), 'text', function(error, doc) {
             doc.attach_textarea(tarea);
         });        
     }
