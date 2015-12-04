@@ -53,7 +53,7 @@ window.onload = function() {
     }
 
     // Receive chat box data when client-side socket.io 
-    socket.on('chat', function(msg) {
+    socket.on('chat message', function(msg) {
       console.log("chat received");
       var node = document.createElement("LI");                 // Create a <li> node
       var textnode = document.createTextNode(msg);         // Create a text node
