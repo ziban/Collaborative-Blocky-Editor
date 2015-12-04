@@ -90,28 +90,26 @@ window.onload = function() {
       chatmsg.appendChild(node);  
     });
 
-    // Timer Function to detect text area updates from ShareJS.
-    var oldVal = tarea.value; 
-    var oldblocknum = workspace.getAllBlocks().length;
-    setInterval(function(){
-      // MOre logic here to figure out what exactly
-      // if add blocks, or changing value, start a delay clock
-      
 
-      //console.log(workspace.getAllBlocks().length);
+    // Timer Function to detect text area updates from ShareJS.
+    // Also Change delay logic to make user experience better
+    var oldVal = tarea.value; 
+    setInterval(function(){
       if (changeOccured())
       {
+        // Give a one second delay immediately
         setTimeout(function(){
+          // Clear workspace, and update based on server.
           workspace.clear();
           fromXml()
-        }, 1000)
+        }, 500)
       }
-    }, 200);
+    }, 500);
 
 
     // Blockly Change Listener
     workspace.addChangeListener(function() {
-        console.log("change");
+        //console.log("change");
         toXml();
     });
 
