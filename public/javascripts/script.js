@@ -8,7 +8,8 @@ window.onload = function() {
     var chatmsg  = document.getElementById('messages');
     var button = document.getElementById('button');
     var chatbox = document.getElementById('input');
-    var chatDiv = document.getElementById('chatDiv')
+    var chatDiv = document.getElementById('chatDiv');
+
 
     // Used to fake a keyboard input to trigger ShareJS to update clients on text area (Compatible with Gecko and Chrome)
     var keyboardEvent = document.createEvent("KeyboardEvent");
@@ -91,13 +92,22 @@ window.onload = function() {
 
     // Timer Function to detect text area updates from ShareJS.
     var oldVal = tarea.value; 
+    var oldblocknum = workspace.getAllBlocks().length;
     setInterval(function(){
+      // MOre logic here to figure out what exactly
+      // if add blocks, or changing value, start a delay clock
+      
+
+      //console.log(workspace.getAllBlocks().length);
       if (changeOccured())
       {
-        workspace.clear();
-        fromXml();
+        setTimeout(function(){
+          workspace.clear();
+          fromXml()
+        }, 1000)
       }
     }, 200);
+
 
     // Blockly Change Listener
     workspace.addChangeListener(function() {
@@ -106,7 +116,7 @@ window.onload = function() {
     });
 
     // ShareJS Connection Open
-
+    // Leave home page clear
    if(document.location.pathname.length > 1){
         // implement share js
         sharejs.open(documentName.substring(1), 'text', function(error, doc) {

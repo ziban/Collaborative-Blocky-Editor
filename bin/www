@@ -26,16 +26,15 @@ var server = http.createServer(app);
 var io = require('socket.io')(server);
 
 io.on('connection', function(socket){
-  //console.log('a user connected');
-  socket.broadcast.emit('chat message', "CHAT SERVER : A user has connected")
-
+  console.log('a user connected');
   socket.on('disconnect', function(){
-    socket.broadcast.emit('chat message', "CHAT SERVER : A user has disconnected");
+    //socket.broadcast.emit('chat message', "CHAT SERVER : A user has disconnected");
     //console.log('user disconnected');
   });
 
   socket.on('join room', function(msg){
-    socket.join(msg);    
+    socket.join(msg);  
+    socket.to(msg).broadcast.emit('chat message', "CHAT SERVER : A user has connected")
   });
 
   socket.on('chat message', function(roomName,msg){
