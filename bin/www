@@ -22,7 +22,10 @@ app.set('port', port);
  */
 var server = http.createServer(app);
 
-// Socket.io
+/**
+ * Socket Logic.
+ */
+
 var io = require('socket.io')(server);
 
 io.on('connection', function(socket){
@@ -34,14 +37,11 @@ io.on('connection', function(socket){
 
   socket.on('join room', function(msg){
     socket.join(msg);  
-    socket.to(msg).broadcast.emit('chat message', "CHAT SERVER : A user has connected")
+    socket.to(msg).broadcast.emit('chat', "-- User connected to the workspace --")
   });
 
-  socket.on('chat message', function(roomName,msg){
-    console.log(roomName);
-    console.log(msg);
-    io.emit('chat message', msg);
-    //io.to(roomName).emit('chat message', msg);
+  socket.on('chat_serv', function(roomName,msg){
+    io.to(roomName).emit('chat', msg);
   });
 });
 

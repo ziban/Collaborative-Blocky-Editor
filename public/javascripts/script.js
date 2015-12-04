@@ -20,6 +20,8 @@ window.onload = function() {
     }
 
     //----------------- Chat Implementation ------------------------------- //
+    
+    // Chat Boc Auto scroll down
     setInterval(function() {
           var isManuallyScrolling = (chatDiv.scrollHeight - chatDiv.clientHeight
                                        > chatDiv.scrollTop + 65)
@@ -29,13 +31,12 @@ window.onload = function() {
     },100)  
   
     var socket = io();
-    socket.emit('join room', documentName)
+    socket.emit('join room', document.location.pathname)
 
     // Submit chatBox data to server-side socket.io
     button.onclick = function() {
       if(chatbox.value != ""){
-        console.log("Chat Box Value: "+ chatbox.value);
-        socket.emit('chat message', documentName, chatbox.value);
+        socket.emit('chat_serv', document.location.pathname, chatbox.value);
         chatbox.value = "";
       }
     };
@@ -53,9 +54,8 @@ window.onload = function() {
     }
 
     // Receive chat box data when client-side socket.io 
-    socket.on('chat message', function(msg) {
-      console.log("chat received");
-      var node = document.createElement("LI");                 // Create a <li> node
+    socket.on('chat', function(msg) {
+      var node = document.createElement("li");                 // Create a <li> node
       var textnode = document.createTextNode(msg);         // Create a text node
       node.appendChild(textnode);
       chatmsg.appendChild(node);  
@@ -111,13 +111,7 @@ window.onload = function() {
           console.log("Changed detected, entering recusive delay loop")
           recursive_delay(tarea.value, sync_changes);
       }
-      
-        // console.log("Exitting Delay");
-        // workspace.clear();
-        // fromXml();
-      
     }, 100);
-
 
     function sync_changes(){
             console.log("Syncing Changes");
@@ -138,9 +132,8 @@ window.onload = function() {
         }, 300);
     }
 
-      // Blockly Change Listener
+    // Blockly Change Listener
     workspace.addChangeListener(function() {
-        //console.log("change");
         toXml();
     });
 
