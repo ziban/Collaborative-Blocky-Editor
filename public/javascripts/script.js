@@ -13,16 +13,13 @@ window.onload = function() {
     var chatDiv = document.getElementById('chatDiv');
     var generatebutton = document.getElementById('jsgenerate');
 
-<<<<<<< HEAD
     //----------------- Export/Import/Step  ------------------------------- //
     generatebutton.onclick = function(){
         alert(Blockly.JavaScript.workspaceToCode(workspace));
     }
-=======
 
     var documentName = document.location.pathname;
->>>>>>> 8d18b0591a495af75a23f1afdd0734a648796320
-
+    
     //----------------- Chat Implementation ------------------------------- //
     setInterval(function() {
           var isManuallyScrolling = (chatDiv.scrollHeight - chatDiv.clientHeight
