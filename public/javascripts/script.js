@@ -19,7 +19,7 @@ window.onload = function() {
     }
 
     var documentName = document.location.pathname;
-    
+
     //----------------- Chat Implementation ------------------------------- //
     setInterval(function() {
           var isManuallyScrolling = (chatDiv.scrollHeight - chatDiv.clientHeight
@@ -105,16 +105,41 @@ window.onload = function() {
     // Also Change delay logic to make user experience better
     // Timer Function to detect text area updates from ShareJS.
     setInterval(function(){
-      if (changeOccured())
-      {
-        workspace.clear();
-        fromXml();
+      if (changeOccured()){
+        
+          console.log("Changed detected, entering recusive delay loop")
+          recursive_delay(tarea.value, sync_changes);
+          console.log("Exit...")
       }
+      
+        // console.log("Exitting Delay");
+        // workspace.clear();
+        // fromXml();
+      
     }, 100);
+
+
+    function sync_changes(){
+            console.log("Syncing Changes");
+            workspace.clear();
+            fromXml();  
+    }
+
+    function recursive_delay(snapshot, callback){
+        setTimeout(function(){
+            if(tarea.value != snapshot){
+              console.log('recursive delay triggered');
+              recursive_delay(tarea.value);
+            }
+            else {
+              callback();
+            }
+        }, 500);
+    }
 
       // Blockly Change Listener
     workspace.addChangeListener(function() {
-        console.log("change");
+        //console.log("change");
         toXml();
     });
 
