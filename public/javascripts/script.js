@@ -2,6 +2,7 @@
 
 // Main Application logic
 window.onload = function() {
+
     // Getting Elements
     var blockly = document.getElementById('blocklyDiv');
     var tarea = document.getElementById('tarea');
@@ -10,6 +11,49 @@ window.onload = function() {
     var chatbox = document.getElementById('input');
     var chatDiv = document.getElementById('chatDiv');
 
+    var documentName = document.location.pathname;
+
+    //----------------- Chat Implementation ------------------------------- //
+    setInterval(function() {
+          var isManuallyScrolling = (chatDiv.scrollHeight - chatDiv.clientHeight
+                                       > chatDiv.scrollTop + 65)
+          if(!isManuallyScrolling) {
+            chatDiv.scrollTop = chatDiv.scrollHeight - chatDiv.clientHeight;   
+          }
+    },100)  
+  
+    var socket = io();
+    socket.emit('join room', documentName)
+
+    // Submit chatBox data to server-side socket.io
+    button.onclick = function() {
+      if(chatbox.value != ""){
+        socket.emit('chat message', documentName, chatbox.value);
+        chatbox.value = "";
+      }
+    };
+
+    // Check if enter is pressed in input field, if yes, simulate submission button press
+    // Enter is mainaully disabled due to form's default property of refreshing in submission
+    // triggerd by enter key.
+    chatbox.onkeypress = function(e) {
+      if (!e) e = window.event;
+      var keyCode = e.keyCode || e.which;
+      if (keyCode == '13'){
+        button.onclick();
+        return false;
+      }
+    }
+
+    // Receive chat box data when client-side socket.io 
+    socket.on('chat message', function(msg) {
+      var node = document.createElement("li");                 // Create a <li> node
+      var textnode = document.createTextNode(msg);         // Create a text node
+      node.appendChild(textnode);
+      chatmsg.appendChild(node);  
+    });
+
+    //------------------------Share JS Implementation ------------------------//
 
     // Used to fake a keyboard input to trigger ShareJS to update clients on text area (Compatible with Gecko and Chrome)
     var keyboardEvent = document.createEvent("KeyboardEvent");
@@ -48,57 +92,14 @@ window.onload = function() {
       }
         return false;
     };
-
-    // Chatbox Scrolling logic
-    setInterval(function(){
-          var isManuallyScrolling = (chatDiv.scrollHeight - chatDiv.clientHeight > chatDiv.scrollTop+65)
-          if(!isManuallyScrolling){
-            chatDiv.scrollTop = chatDiv.scrollHeight - chatDiv.clientHeight;   
-          }
-    },100)  
-
-    var documentName = document.location.pathname;
-    //----------------------------------------------------------------------------------//
-    var socket = io();
-    socket.emit('join room', documentName)
-
-    // Submit chatBox data to server-side socket.io
-    button.onclick = function(){
-      if(chatbox.value != ""){
-        socket.emit('chat message', documentName, chatbox.value);
-        chatbox.value = "";
-      }
-    };
-
-    // Check if enter is pressed in input field, if yes, simulate submission button press
-    // Enter is mainaully disabled due to form's default property of refreshing in submission
-    // triggerd by enter key.
-    chatbox.onkeypress = function(e){
-      if (!e) e = window.event;
-      var keyCode = e.keyCode || e.which;
-      if (keyCode == '13'){
-        button.onclick();
-        return false;
-      }
-    }
-
-    // Receive chat box data when client-side socket.io 
-    socket.on('chat message', function(msg){
-      var node = document.createElement("li");                 // Create a <li> node
-      var textnode = document.createTextNode(msg);         // Create a text node
-      node.appendChild(textnode);
-      chatmsg.appendChild(node);  
-    });
-
-
+    
     // Timer Function to detect text area updates from ShareJS.
     // Also Change delay logic to make user experience better
     var oldVal = tarea.value; 
-    setInterval(function(){
-      if (changeOccured())
-      {
+    setInterval(function() {
+      if (changeOccured()) {
         // Give a one second delay immediately
-        setTimeout(function(){
+        setTimeout(function() {
           // Clear workspace, and update based on server.
           workspace.clear();
           fromXml()
@@ -115,7 +116,7 @@ window.onload = function() {
 
     // ShareJS Connection Open
     // Leave home page clear
-   if(document.location.pathname.length > 1){
+   if(document.location.pathname.length > 1) {
         // implement share js
         sharejs.open(documentName.substring(1), 'text', function(error, doc) {
             doc.attach_textarea(tarea);
