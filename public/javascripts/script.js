@@ -11,6 +11,7 @@ window.onload = function() {
     var chatbox = document.getElementById('input');
     var chatDiv = document.getElementById('chatDiv');
 
+
     var documentName = document.location.pathname;
 
     //----------------- Chat Implementation ------------------------------- //
@@ -84,6 +85,7 @@ window.onload = function() {
     }
 
     //Monitors for change in the textarea 
+     var oldVal = tarea.value; 
     var changeOccured = function() {
       if (tarea.value != oldVal)
       {
@@ -95,30 +97,29 @@ window.onload = function() {
     
     // Timer Function to detect text area updates from ShareJS.
     // Also Change delay logic to make user experience better
-    var oldVal = tarea.value; 
-    setInterval(function() {
-      if (changeOccured()) {
-        // Give a one second delay immediately
-        setTimeout(function() {
-          // Clear workspace, and update based on server.
-          workspace.clear();
-          fromXml()
-        }, 500)
+    // Timer Function to detect text area updates from ShareJS.
+    setInterval(function(){
+      if (changeOccured())
+      {
+        workspace.clear();
+        fromXml();
       }
-    }, 500);
+    }, 100);
 
-
-    // Blockly Change Listener
+      // Blockly Change Listener
     workspace.addChangeListener(function() {
-        //console.log("change");
+        console.log("change");
         toXml();
     });
 
+
+ 
     // ShareJS Connection Open
     // Leave home page clear
    if(document.location.pathname.length > 1) {
         // implement share js
-        sharejs.open(documentName.substring(1), 'text', function(error, doc) {
+        var documentName = document.location.pathname.substring(1);
+        sharejs.open(documentName, 'text', function(error, doc) {
             doc.attach_textarea(tarea);
         });        
     }
