@@ -38,8 +38,9 @@ io.on('connection', function(socket){
   });
 
   socket.on('chat message', function(roomName,msg){
-    console.log('message: ' + msg);
-    io.to(roomName).emit('chat message', msg);
+    console.log(roomName);
+    console.log(msg);
+    io.to(roomName).emit('chat', msg);
   });
 });
 

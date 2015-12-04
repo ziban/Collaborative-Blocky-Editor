@@ -12,13 +12,12 @@ window.onload = function() {
     var chatbox = document.getElementById('input');
     var chatDiv = document.getElementById('chatDiv');
     var generatebutton = document.getElementById('jsgenerate');
+    var documentName = document.location.pathname;
 
     //----------------- Export/Import/Step  ------------------------------- //
     generatebutton.onclick = function(){
         alert(Blockly.JavaScript.workspaceToCode(workspace));
     }
-
-    var documentName = document.location.pathname;
 
     //----------------- Chat Implementation ------------------------------- //
     setInterval(function() {
@@ -35,6 +34,7 @@ window.onload = function() {
     // Submit chatBox data to server-side socket.io
     button.onclick = function() {
       if(chatbox.value != ""){
+        console.log("Chat Box Value: "+ chatbox.value);
         socket.emit('chat message', documentName, chatbox.value);
         chatbox.value = "";
       }
@@ -53,8 +53,9 @@ window.onload = function() {
     }
 
     // Receive chat box data when client-side socket.io 
-    socket.on('chat message', function(msg) {
-      var node = document.createElement("li");                 // Create a <li> node
+    socket.on('chat', function(msg) {
+      console.log("chat received");
+      var node = document.createElement("LI");                 // Create a <li> node
       var textnode = document.createTextNode(msg);         // Create a text node
       node.appendChild(textnode);
       chatmsg.appendChild(node);  
@@ -109,7 +110,6 @@ window.onload = function() {
         
           console.log("Changed detected, entering recusive delay loop")
           recursive_delay(tarea.value, sync_changes);
-          console.log("Exit...")
       }
       
         // console.log("Exitting Delay");
@@ -129,12 +129,13 @@ window.onload = function() {
         setTimeout(function(){
             if(tarea.value != snapshot){
               console.log('recursive delay triggered');
-              recursive_delay(tarea.value);
+              recursive_delay(tarea.value, null);
             }
             else {
-              callback();
+              if(callback != null)
+                callback();
             }
-        }, 500);
+        }, 300);
     }
 
       // Blockly Change Listener
