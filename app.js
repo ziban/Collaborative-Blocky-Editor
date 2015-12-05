@@ -17,7 +17,7 @@ var sharejs = require('share');
 require('redis');
 //Options for the sharejs server. Added the redis database for persistence 
 var options = {
-  db: {type: 'redis'},
+  db: {type: 'none'},
 };
 //Attach sharejs and express server
 sharejs.server.attach(app, options);
