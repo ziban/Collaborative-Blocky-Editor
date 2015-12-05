@@ -129,7 +129,7 @@ window.onload = function() {
               if(callback != null)
                 callback();
             }
-        }, 300);
+        }, 750);
     }
 
     // Blockly Change Listener
