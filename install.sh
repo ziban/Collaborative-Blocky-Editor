@@ -55,7 +55,8 @@ else
 	printf "npm  not installed on this computer\n**Installing**\node"
 fi
 
-
+#initialize a new git repo 
+git init
 #Make sure that the git
 git pull https://github.com/ziban/Collaborative-Blocky-Editor.git
 
